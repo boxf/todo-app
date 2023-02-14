@@ -1,6 +1,5 @@
 package ch.cern.todo.dto;
 
-import ch.cern.todo.model.Category;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +21,6 @@ public class TaskDto {
 
     private Timestamp deadLine;
 
-    private Category category;
+    private CategoryDto categoryDto;
 
 }

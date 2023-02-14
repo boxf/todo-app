@@ -3,10 +3,12 @@ package ch.cern.todo.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.validation.constraints.Size;
 import java.sql.Timestamp;
 
 /**
- * Entity representing the task in the app
+ * TodoEntity representing the task in the app
  */
 @Getter
 @Setter
@@ -21,15 +23,17 @@ public class Task {
     private Long id;
 
     @Column(name = "TASK_NAME")
+    @Size(max = 100)
     private String name;
 
     @Column(name = "TASK_DESCRIPTION")
+    @Size(max = 500)
     private String description;
 
     @Column(name = "DEADLINE")
     private Timestamp deadLine;
 
     @JoinColumn(name = "CATEGORY_ID")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Category category;
 }

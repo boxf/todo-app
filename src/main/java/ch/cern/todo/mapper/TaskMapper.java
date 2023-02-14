@@ -2,15 +2,17 @@ package ch.cern.todo.mapper;
 
 import ch.cern.todo.dto.TaskDto;
 import ch.cern.todo.model.Task;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 /**
  * TODO : verifier le type du bean à mettre
  */
 @Service
 public class TaskMapper {
+
+    @Autowired
+    private CategoryMapper categoryMapper;
 
     /**
      * Maps a TaskDtoIn to a Task
@@ -24,7 +26,7 @@ public class TaskMapper {
         task.setName(taskDto.getName());
         task.setDescription(taskDto.getDescription());
         task.setDeadLine(taskDto.getDeadLine());
-        task.setCategory(taskDto.getCategory());
+        task.setCategory(categoryMapper.mapCategoryDtoToCategory(taskDto.getCategoryDto()));
 
         return task;
     }
@@ -41,7 +43,7 @@ public class TaskMapper {
         taskDto.setName(task.getName());
         taskDto.setDescription(task.getDescription());
         taskDto.setDeadLine(task.getDeadLine());
-        taskDto.setCategory(task.getCategory());
+        taskDto.setCategoryDto(categoryMapper.mapCategoryToCategoryDto(task.getCategory()));
 
         return taskDto;
     }

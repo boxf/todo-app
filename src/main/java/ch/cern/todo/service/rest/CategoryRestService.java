@@ -28,7 +28,7 @@ public class CategoryRestService {
      * @return
      */
     public CategoryDto addNewCategory(CategoryDto categoryDto) {
-        Category category = categoryMapper.mapCategoryDtoInToCategory(categoryDto);
+        Category category = categoryMapper.mapCategoryDtoToCategory(categoryDto);
         return categoryMapper.mapCategoryToCategoryDto(categoryService.addCategory(category));
     }
 

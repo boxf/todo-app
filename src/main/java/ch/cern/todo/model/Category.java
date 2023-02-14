@@ -3,19 +3,21 @@ package ch.cern.todo.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
 
 /**
- * Entity representing category's task in the app
+ * TodoEntity representing category's task in the app
  */
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "task_category")
+@Table(name = "TASK_CATEGORY")
 public class Category {
 
     @Id
@@ -24,9 +26,11 @@ public class Category {
     private Long id;
 
     @Column(name = "CATEGORY_NAME")
+    @Size(max = 100)
     private String name;
 
     @Column(name = "CATEGORY_DESCRIPTION")
+    @Size(max = 500)
     private String description;
 
     @OneToMany(mappedBy = "category")

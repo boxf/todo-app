@@ -25,7 +25,7 @@ public class TaskRestService {
      * Adds a new task to the DB
      *
      * @param taskDto
-     * @return
+     * @return TaskDto
      */
     public TaskDto addNewTask(TaskDto taskDto) {
         Task task = taskMapper.mapTaskDtoInToTask(taskDto);
@@ -33,12 +33,11 @@ public class TaskRestService {
     }
 
     /**
-     * Retrieve a task in DB with the given id
+     * Retrieve a task in DB with the given id and convert it to a {@link Optional<TaskDto>}
      *
      * @param id
-     * @return
+     * @return Optional<TaskDto>
      */
-    // TODO : verify the architecture. It does not seem to be really well implemented
     public Optional<TaskDto> getTaskById(Long id) {
         TaskDto taskDto = new TaskDto();
 

@@ -16,13 +16,19 @@ public class CategoryMapper {
      * @param categoryDto
      * @return category
      */
-    public Category mapCategoryDtoInToCategory(CategoryDto categoryDto) {
-        Category category = new Category();
-        category.setId(categoryDto.getId());
-        category.setName(categoryDto.getName());
-        category.setDescription(categoryDto.getDescription());
+    public Category mapCategoryDtoToCategory(CategoryDto categoryDto) {
+        if (categoryDto != null) {
+            Category category = new Category();
+            category.setId(categoryDto.getId());
+            category.setName(categoryDto.getName());
+            category.setDescription(categoryDto.getDescription());
 
-        return category;
+            return category;
+
+        } else {
+            return null;
+        }
+
     }
 
     /**
@@ -32,11 +38,16 @@ public class CategoryMapper {
      * @return categoryDto
      */
     public CategoryDto mapCategoryToCategoryDto(Category category) {
-        CategoryDto categoryDto = new CategoryDto();
-        categoryDto.setId(category.getId());
-        categoryDto.setName(category.getName());
-        categoryDto.setDescription(category.getDescription());
+        if (category != null) {
+            CategoryDto categoryDto = new CategoryDto();
+            categoryDto.setId(category.getId());
+            categoryDto.setName(category.getName());
+            categoryDto.setDescription(category.getDescription());
 
-        return categoryDto;
+            return categoryDto;
+
+        } else {
+            return null;
+        }
     }
 }
