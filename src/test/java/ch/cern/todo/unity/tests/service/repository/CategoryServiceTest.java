@@ -11,6 +11,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -85,6 +88,33 @@ public class CategoryServiceTest {
         //THEN
         Mockito.verify(categoryRepository).findById(id);
         assertEquals(Optional.empty(), CategoryResult);
+    }
+
+    @Test
+    public void testGetAllCategoriesReturnValue() {
+        // GIVEN
+        Collection<Category> returnedCategories = TestUtils.buildCollectionCategory();
+
+        //WHEN
+        when(categoryRepository.findAll()).thenReturn((List<Category>) returnedCategories);
+
+        Collection<Category> categoryResult = categoryService.getAllCategories();
+
+        //THEN
+        verify(categoryRepository).findAll();
+        assertEquals(3, categoryResult.size());
+    }
+
+    @Test
+    public void testGetAllCategoriesReturnEmpty() {
+        //WHEN
+        when(categoryRepository.findAll()).thenReturn(Collections.emptyList());
+
+        Collection<Category> CategoryResult = categoryService.getAllCategories();
+
+        //THEN
+        verify(categoryRepository).findAll();
+        assertEquals(Collections.EMPTY_LIST, CategoryResult);
     }
 
     @Test

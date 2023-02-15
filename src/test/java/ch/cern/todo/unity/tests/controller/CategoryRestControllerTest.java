@@ -13,6 +13,8 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -68,6 +70,32 @@ public class CategoryRestControllerTest {
 
         //THEN
         Mockito.verify(categoryRestService).getCategoryById(id);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetAllCategoryFound() {
+        // GIVEN
+        Collection<CategoryDto> categoriesDto = TestUtils.buildCollectionCategoryDto();
+
+        //WHEN
+        Mockito.when(categoryRestService.getAllCategories()).thenReturn(categoriesDto);
+        ResponseEntity<Collection<CategoryDto>> response = categoryRestController.getAllCategories();
+
+        //THEN
+        Mockito.verify(categoryRestService).getAllCategories();
+        assertEquals(3, response.getBody().size());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testGetAllCategoryEmpty() {
+        //WHEN
+        Mockito.when(categoryRestService.getAllCategories()).thenReturn(Collections.emptyList());
+        ResponseEntity<Collection<CategoryDto>> response = categoryRestController.getAllCategories();
+
+        //THEN
+        Mockito.verify(categoryRestService).getAllCategories();
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 

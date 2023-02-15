@@ -7,7 +7,10 @@ import ch.cern.todo.service.repository.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Orchestration service used to manage Tasks for the TODOapp
@@ -45,6 +48,17 @@ public class TaskRestService {
     }
 
     /**
+     * Retrieve all task in DB and convert it to a {@link Collection<TaskDto>}
+     *
+     * @return Optional<TaskDto>
+     */
+    public Collection<TaskDto> getAllTasks() {
+        Collection<Task> tasks = taskService.getAllTasks();
+
+        return tasks.stream().map((task) -> taskMapper.mapTaskToTaskDto(task)).collect(Collectors.toList());
+    }
+
+    /**
      * Update the {@link Task} corresponding to the given {@link TaskDto} with the new values
      *
      * @param taskDto
@@ -56,6 +70,15 @@ public class TaskRestService {
         Optional<Task> updatedTask = taskService.updateTask(mappedTask);
 
         return updatedTask.map(task -> taskMapper.mapTaskToTaskDto(task));
+    }
+
+    /**
+     * Delete a {@link Task} in DB by given id
+     * @param id
+     * @return
+     */
+    public boolean deleteTask(Long id){
+        return taskService.deleteTask(id);
     }
 
 

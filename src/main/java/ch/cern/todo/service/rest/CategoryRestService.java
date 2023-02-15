@@ -7,7 +7,9 @@ import ch.cern.todo.service.repository.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Orchestration REST service used to manage {@link Category} for the TODOApp
@@ -43,6 +45,17 @@ public class CategoryRestService {
             return Optional.of(categoryMapper.mapCategoryToCategoryDto(categoryService.getCategoryById(id).get()));
 
         } else return Optional.empty();
+    }
+
+    /**
+     * Retrieve all task in DB and convert it to a {@link Collection<CategoryDto>}
+     *
+     * @return categoriesDto
+     */
+    public Collection<CategoryDto> getAllCategories() {
+        Collection<Category> categories = categoryService.getAllCategories();
+
+        return categories.stream().map((category) -> categoryMapper.mapCategoryToCategoryDto(category)).collect(Collectors.toList());
     }
 
     /**

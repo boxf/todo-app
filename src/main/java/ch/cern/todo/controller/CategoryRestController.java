@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -34,6 +35,17 @@ public class CategoryRestController implements CategoryRestApi {
     public ResponseEntity<CategoryDto> getCategory(@PathVariable Long id) {
         Optional<CategoryDto> categoryDto = categoryRestService.getCategoryById(id);
         return categoryDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @Override
+    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Collection<CategoryDto>> getAllCategories() {
+        Collection<CategoryDto> categoriesDto = categoryRestService.getAllCategories();
+        if (categoriesDto.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(categoriesDto);
+        }
     }
 
     @Override

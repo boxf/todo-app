@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -44,6 +45,15 @@ public class TaskService {
     }
 
     /**
+     * Get all the entities in DB.
+     *
+     * @return
+     */
+    public Collection<Task> getAllTasks() {
+        return taskRepository.findAll();
+    }
+
+    /**
      * Update an existing {@link Task} with the new values received
      *
      * @param task
@@ -63,6 +73,17 @@ public class TaskService {
 
         } else {
             return Optional.empty();
+        }
+    }
+
+    public boolean deleteTask(Long id) {
+        Optional<Task> optionalTask = getTaskById(id);
+
+        if (optionalTask.isPresent()) {
+            taskRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
         }
 
     }

@@ -7,6 +7,8 @@ import ch.cern.todo.model.Task;
 import lombok.experimental.UtilityClass;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @UtilityClass
 public class TestUtils {
@@ -44,6 +46,70 @@ public class TestUtils {
         category.setDescription("Finish the project sent by Lukasz");
 
         return category;
+    }
+
+    public static Collection<TaskDto> buildCollectionTaskDto() {
+        TaskDto taskDto1 = buildTaskDto();
+        taskDto1.setId(1L);
+        TaskDto taskDto2 = buildTaskDto();
+        taskDto2.setId(2L);
+        TaskDto taskDto3 = buildTaskDto();
+        taskDto3.setId(3L);
+
+        Collection<TaskDto> tasksDto = new ArrayList<>();
+        tasksDto.add(taskDto1);
+        tasksDto.add(taskDto2);
+        tasksDto.add(taskDto3);
+
+        return tasksDto;
+    }
+
+    public static Collection<Task> buildCollectionTask() {
+        Task task1 = buildTask();
+        task1.setId(1L);
+        Task task2 = buildTask();
+        task2.setId(2L);
+        Task task3 = buildTask();
+        task3.setId(3L);
+
+        Collection<Task> tasks = new ArrayList<>();
+        tasks.add(task1);
+        tasks.add(task2);
+        tasks.add(task3);
+
+        return tasks;
+    }
+
+    public static Collection<CategoryDto> buildCollectionCategoryDto() {
+        CategoryDto categoryDto1 = buildCategoryDto();
+        categoryDto1.setId(1L);
+        CategoryDto categoryDto2 = buildCategoryDto();
+        categoryDto2.setId(2L);
+        CategoryDto categoryDto3 = buildCategoryDto();
+        categoryDto3.setId(3L);
+
+        Collection<CategoryDto> categoriesDto = new ArrayList<>();
+        categoriesDto.add(categoryDto1);
+        categoriesDto.add(categoryDto2);
+        categoriesDto.add(categoryDto3);
+
+        return categoriesDto;
+    }
+
+    public static Collection<Category> buildCollectionCategory() {
+        Category category1 = buildCategory();
+        category1.setId(1L);
+        Category category2 = buildCategory();
+        category2.setId(2L);
+        Category category3 = buildCategory();
+        category3.setId(3L);
+
+        Collection<Category> categories = new ArrayList<>();
+        categories.add(category1);
+        categories.add(category2);
+        categories.add(category3);
+
+        return categories;
     }
 
 

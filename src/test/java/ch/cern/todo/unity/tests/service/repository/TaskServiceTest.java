@@ -10,13 +10,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class TaskServiceTest {
@@ -88,6 +88,33 @@ public class TaskServiceTest {
     }
 
     @Test
+    public void testGetAllTasksReturnValue() {
+        // GIVEN
+        Collection<Task> returnedTasks = TestUtils.buildCollectionTask();
+
+        //WHEN
+        when(taskRepository.findAll()).thenReturn((List<Task>) returnedTasks);
+
+        Collection<Task> taskResult = taskService.getAllTasks();
+
+        //THEN
+        verify(taskRepository).findAll();
+        assertEquals(3, taskResult.size());
+    }
+
+    @Test
+    public void testGetAllTasksReturnEmpty() {
+        //WHEN
+        when(taskRepository.findAll()).thenReturn(Collections.emptyList());
+
+        Collection<Task> TaskResult = taskService.getAllTasks();
+
+        //THEN
+        verify(taskRepository).findAll();
+        assertEquals(Collections.EMPTY_LIST, TaskResult);
+    }
+
+    @Test
     public void testUpdateTask() {
         // GIVEN
         Task task = TestUtils.buildTask();
@@ -130,4 +157,36 @@ public class TaskServiceTest {
         assertEquals(Optional.empty(), optionalTaskResult);
     }
 
+    @Test
+    public void testDeleteTask() {
+        //GIVEN
+        Long id = 1L;
+        Task task = TestUtils.buildTask();
+
+        //WHEN
+        when(taskRepository.findById(id)).thenReturn(Optional.of(task));
+
+        boolean response = taskService.deleteTask(id);
+
+        //THEN
+        verify(taskRepository).findById(id);
+        verify(taskRepository).deleteById(id);
+        assertTrue(response);
+    }
+
+    @Test
+    public void testDeleteTaskIdNotFound() {
+        //GIVEN
+        Long id = 1L;
+
+        //WHEN
+        when(taskRepository.findById(id)).thenReturn(Optional.empty());
+
+        boolean response = taskService.deleteTask(id);
+
+        //THEN
+        verify(taskRepository).findById(id);
+        verify(taskRepository, never()).deleteById(id);
+        assertFalse(response);
+    }
 }

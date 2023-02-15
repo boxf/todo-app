@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Collection;
 import java.util.Optional;
 
 /**
@@ -39,6 +40,17 @@ public class CategoryService {
         } catch (EntityNotFoundException e) {
             return Optional.empty();
         }
+    }
+
+    /**
+     * Get all the entities in DB.
+     *
+     * @return
+     */
+    public Collection<Category> getAllCategories() {
+        Collection<Category> categories = categoryRepository.findAll();
+
+        return categories;
     }
 
     /**

@@ -12,14 +12,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -111,6 +113,46 @@ public class TaskRestServiceTest {
     }
 
     @Test
+    public void testGetAllTaskReturnValue() {
+        // GIVEN
+        Collection<Task> returnedTasks = TestUtils.buildCollectionTask();
+
+        TaskDto returnedTaskDto = TestUtils.buildTaskDto();
+        returnedTaskDto.setId(1L);
+
+        //WHEN
+        when(taskService.getAllTasks()).thenReturn((returnedTasks));
+        when(taskMapper.mapTaskToTaskDto(any())).thenReturn(returnedTaskDto);
+
+        Collection<TaskDto> TasksDtoResult = taskRestService.getAllTasks();
+
+        //THEN
+        verify(taskMapper, times(3)).mapTaskToTaskDto(any());
+        verify(taskService).getAllTasks();
+        assertEquals(3, TasksDtoResult.size());
+    }
+
+    @Test
+    public void testGetAllTaskReturnEmpty() {
+        // GIVEN
+        Task returnedTask = TestUtils.buildTask();
+        returnedTask.setId(1L);
+
+        TaskDto returnedTaskDto = TestUtils.buildTaskDto();
+        returnedTaskDto.setId(1L);
+
+        //WHEN
+        when(taskService.getAllTasks()).thenReturn(Collections.emptyList());
+
+        Collection<TaskDto> TaskDtoResult = taskRestService.getAllTasks();
+
+        //THEN
+        verify(taskMapper, never()).mapTaskToTaskDto(returnedTask);
+        verify(taskService).getAllTasks();
+        assertEquals(Collections.EMPTY_LIST, TaskDtoResult);
+    }
+
+    @Test
     public void testUpdateTaskReturnValue() {
         // GIVEN
         TaskDto taskDto = TestUtils.buildTaskDto();
@@ -170,7 +212,19 @@ public class TaskRestServiceTest {
         assertEquals(empty(), TaskDtoResult);
     }
 
+    @Test
+    public void testDeleteTask() {
+        //GIVEN
+        Long id = 1L;
 
+        //WHEN
+        when(taskService.deleteTask(id)).thenReturn(true);
+        boolean response = taskRestService.deleteTask(id);
 
+        //THEN
+        verify(taskService).deleteTask(id);
+        assertTrue(response);
+
+    }
 
 }

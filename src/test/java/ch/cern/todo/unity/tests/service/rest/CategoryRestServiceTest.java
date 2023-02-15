@@ -13,6 +13,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
@@ -105,6 +107,46 @@ public class CategoryRestServiceTest {
         Mockito.verify(categoryMapper, Mockito.never()).mapCategoryToCategoryDto(returnedCategory);
         Mockito.verify(categoryService).getCategoryById(id);
         assertEquals(Optional.empty(), categoryDtoResult);
+    }
+
+    @Test
+    public void testGetAllCategoryReturnValue() {
+        // GIVEN
+        Collection<Category> returnedCategories = TestUtils.buildCollectionCategory();
+
+        CategoryDto returnedCategoryDto = TestUtils.buildCategoryDto();
+        returnedCategoryDto.setId(1L);
+
+        //WHEN
+        when(categoryService.getAllCategories()).thenReturn((returnedCategories));
+        when(categoryMapper.mapCategoryToCategoryDto(any())).thenReturn(returnedCategoryDto);
+
+        Collection<CategoryDto> CategoriesDtoResult = categoryRestService.getAllCategories();
+
+        //THEN
+        verify(categoryMapper, times(3)).mapCategoryToCategoryDto(any());
+        verify(categoryService).getAllCategories();
+        assertEquals(3, CategoriesDtoResult.size());
+    }
+
+    @Test
+    public void testGetAllCategoryReturnEmpty() {
+        // GIVEN
+        Category returnedCategory = TestUtils.buildCategory();
+        returnedCategory.setId(1L);
+
+        CategoryDto returnedCategoryDto = TestUtils.buildCategoryDto();
+        returnedCategoryDto.setId(1L);
+
+        //WHEN
+        when(categoryService.getAllCategories()).thenReturn(Collections.emptyList());
+
+        Collection<CategoryDto> CategoryDtoResult = categoryRestService.getAllCategories();
+
+        //THEN
+        verify(categoryMapper, never()).mapCategoryToCategoryDto(returnedCategory);
+        verify(categoryService).getAllCategories();
+        assertEquals(Collections.EMPTY_LIST, CategoryDtoResult);
     }
 
     @Test
