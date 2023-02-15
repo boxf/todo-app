@@ -15,36 +15,44 @@ public class TaskMapper {
     private CategoryMapper categoryMapper;
 
     /**
-     * Maps a TaskDtoIn to a Task
+     * Maps a {@link TaskDto} to a {@link Task}
      *
      * @param taskDto
      * @return task
      */
-    public Task mapTaskDtoInToTask(TaskDto taskDto) {
-        Task task = new Task();
-        task.setId(taskDto.getId());
-        task.setName(taskDto.getName());
-        task.setDescription(taskDto.getDescription());
-        task.setDeadLine(taskDto.getDeadLine());
-        task.setCategory(categoryMapper.mapCategoryDtoToCategory(taskDto.getCategoryDto()));
+    public Task mapTaskDtoToTask(TaskDto taskDto) {
+        if (taskDto != null) {
+            Task task = new Task();
+            task.setId(taskDto.getId());
+            task.setName(taskDto.getName());
+            task.setDescription(taskDto.getDescription());
+            task.setDeadLine(taskDto.getDeadLine());
+            task.setCategory(categoryMapper.mapCategoryDtoToCategory(taskDto.getCategoryDto()));
 
-        return task;
+            return task;
+        } else {
+            return null;
+        }
     }
 
     /**
-     * Maps a Task to a TaskDto
+     * Maps a {@link Task} to a {@link TaskDto}
      *
      * @param task
      * @return taskDto
      */
     public TaskDto mapTaskToTaskDto(Task task) {
-        TaskDto taskDto = new TaskDto();
-        taskDto.setId(task.getId());
-        taskDto.setName(task.getName());
-        taskDto.setDescription(task.getDescription());
-        taskDto.setDeadLine(task.getDeadLine());
-        taskDto.setCategoryDto(categoryMapper.mapCategoryToCategoryDto(task.getCategory()));
+        if (task != null) {
+            TaskDto taskDto = new TaskDto();
+            taskDto.setId(task.getId());
+            taskDto.setName(task.getName());
+            taskDto.setDescription(task.getDescription());
+            taskDto.setDeadLine(task.getDeadLine());
+            taskDto.setCategoryDto(categoryMapper.mapCategoryToCategoryDto(task.getCategory()));
 
-        return taskDto;
+            return taskDto;
+        } else {
+            return null;
+        }
     }
 }

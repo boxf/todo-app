@@ -5,13 +5,13 @@ import ch.cern.todo.model.Category;
 import org.springframework.stereotype.Service;
 
 /**
- * TODO : verifier le type du bean à mettre
+ * Mapper for the {@link Category} entity
  */
 @Service
 public class CategoryMapper {
 
     /**
-     * Maps a CategoryDtoIn to a Category
+     * Maps a {@link CategoryDto} to a {@link Category}
      *
      * @param categoryDto
      * @return category
@@ -32,7 +32,7 @@ public class CategoryMapper {
     }
 
     /**
-     * Maps a Category to a CategoryDto
+     * Maps a {@link Category} to a {@link CategoryDto}
      *
      * @param category
      * @return categoryDto

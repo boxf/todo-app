@@ -28,7 +28,7 @@ public class TaskRestService {
      * @return TaskDto
      */
     public TaskDto addNewTask(TaskDto taskDto) {
-        Task task = taskMapper.mapTaskDtoInToTask(taskDto);
+        Task task = taskMapper.mapTaskDtoToTask(taskDto);
         return taskMapper.mapTaskToTaskDto(taskService.addTask(task));
     }
 
@@ -39,8 +39,6 @@ public class TaskRestService {
      * @return Optional<TaskDto>
      */
     public Optional<TaskDto> getTaskById(Long id) {
-        TaskDto taskDto = new TaskDto();
-
         if (taskService.getTaskById(id).isPresent()) {
             return Optional.of(taskMapper.mapTaskToTaskDto(taskService.getTaskById(id).get()));
 
