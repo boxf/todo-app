@@ -1,0 +1,202 @@
+{
+	"info": {
+		"_postman_id": "e6a9c3ac-5d73-497d-a4e3-504dba306c50",
+		"name": "Tasks",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11578507"
+	},
+	"item": [
+		{
+			"name": "AddTaskWithCategory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TodoApp\",\n  \"description\": \"Have to do the todo app for CERN\",\n  \"deadLine\": \"2023-02-12T17:04:23.621\",\n  \"categoryDto\":{\n      \"id\": 1\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/tasks/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tasks",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AddTaskWithoutCategory",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TodoApp\",\n  \"description\": \"Have to do the todo app for CERN\",\n  \"deadLine\": \"2023-02-12T17:04:23.621\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/tasks/add",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tasks",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTaskAddingCategory",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"id\":2,\n  \"name\": \"TodoApp\",\n  \"description\": \"Have to do the todo app for CERN\",\n  \"deadLine\": \"2023-02-12T17:04:23.621\",\n  \"categoryDto\":{\n      \"id\": 1\n  }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/tasks/update",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tasks",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTask",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TodoApp\",\n  \"description\": \"Have to do the todo app for CERN\",\n  \"deadLine\": \"2023-02-12T17:04:23.621\",\n  \"category\":null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/tasks/get?id=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tasks",
+						"get"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAllTask",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TodoApp\",\n  \"description\": \"Have to do the todo app for CERN\",\n  \"deadLine\": \"2023-02-12T17:04:23.621\",\n  \"category\":null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/tasks/",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tasks",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTask",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"TodoApp\",\n  \"description\": \"Have to do the todo app for CERN\",\n  \"deadLine\": \"2023-02-12T17:04:23.621\",\n  \"category\":null\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/tasks/delete?id=2",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"tasks",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
