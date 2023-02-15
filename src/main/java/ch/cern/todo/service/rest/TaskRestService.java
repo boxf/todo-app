@@ -39,13 +39,23 @@ public class TaskRestService {
      * @return Optional<TaskDto>
      */
     public Optional<TaskDto> getTaskById(Long id) {
-        if (taskService.getTaskById(id).isPresent()) {
-            return Optional.of(taskMapper.mapTaskToTaskDto(taskService.getTaskById(id).get()));
+        Optional<Task> optionalTask = taskService.getTaskById(id);
 
-        } else {
-            return Optional.empty();
-        }
+        return optionalTask.map(task -> taskMapper.mapTaskToTaskDto(task));
+    }
 
+    /**
+     * Update the {@link Task} corresponding to the given {@link TaskDto} with the new values
+     *
+     * @param taskDto
+     * @return
+     */
+    public Optional<TaskDto> updateTask(TaskDto taskDto) {
+        Task mappedTask = taskMapper.mapTaskDtoToTask(taskDto);
+
+        Optional<Task> updatedTask = taskService.updateTask(mappedTask);
+
+        return updatedTask.map(task -> taskMapper.mapTaskToTaskDto(task));
     }
 
 

@@ -15,6 +15,9 @@ import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -82,6 +85,47 @@ public class CategoryServiceTest {
         //THEN
         Mockito.verify(categoryRepository).findById(id);
         assertEquals(Optional.empty(), CategoryResult);
+    }
+
+    @Test
+    public void testUpdateCategory() {
+        // GIVEN
+        Category category = TestUtils.buildCategory();
+        category.setId(1L);
+
+        Category returnedCategory = TestUtils.buildCategory();
+        returnedCategory.setId(1L);
+
+        //WHEN
+        when(categoryRepository.findById(1L)).thenReturn(Optional.of(returnedCategory));
+        when(categoryRepository.save(any(Category.class))).thenReturn(returnedCategory);
+
+        Category categoryResult = categoryService.updateCategory(category).get();
+
+        //THEN
+        verify(categoryRepository).save(any(Category.class));
+        assertEquals(returnedCategory.getId(), categoryResult.getId());
+        assertEquals(returnedCategory.getName(), categoryResult.getName());
+        assertEquals(returnedCategory.getDescription(), categoryResult.getDescription());
+    }
+
+    @Test
+    public void testUpdateCategoryEmpty() {
+        // GIVEN
+        Category category = TestUtils.buildCategory();
+        category.setId(1L);
+
+        Category returnedCategory = TestUtils.buildCategory();
+        returnedCategory.setId(1L);
+
+        //WHEN
+        when(categoryRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Optional<Category> optionalCategoryResult = categoryService.updateCategory(category);
+
+        //THEN
+        verify(categoryRepository).findById(1L);
+        assertEquals(Optional.empty(), optionalCategoryResult);
     }
 
 

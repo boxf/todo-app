@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 /**
- * Orchestration REST service used to manage {@link Category} for the TODOapp
+ * Orchestration REST service used to manage {@link Category} for the TODOApp
  */
 @Service
 public class CategoryRestService {
@@ -38,16 +38,28 @@ public class CategoryRestService {
      * @param id
      * @return
      */
-    // TODO : verify the architecture. It does not seem to be really well implemented
     public Optional<CategoryDto> getCategoryById(Long id) {
         if (categoryService.getCategoryById(id).isPresent()) {
             return Optional.of(categoryMapper.mapCategoryToCategoryDto(categoryService.getCategoryById(id).get()));
 
-        } else {
-            return Optional.empty();
-        }
+        } else return Optional.empty();
+    }
+
+    /**
+     * Update the {@link Category} corresponding to the given {@link CategoryDto} with the new values
+     *
+     * @param categoryDto
+     * @return
+     */
+    public Optional<CategoryDto> updateCategory(CategoryDto categoryDto) {
+        Category mappedCategory = categoryMapper.mapCategoryDtoToCategory(categoryDto);
+
+        Optional<Category> updatedCategory = categoryService.updateCategory(mappedCategory);
+
+        return updatedCategory.map(category -> categoryMapper.mapCategoryToCategoryDto(category));
 
     }
+
 
 
 }

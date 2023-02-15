@@ -43,4 +43,28 @@ public class TaskService {
         }
     }
 
+    /**
+     * Update an existing {@link Task} with the new values received
+     *
+     * @param task
+     * @return
+     */
+    public Optional<Task> updateTask(Task task) {
+        Optional<Task> existingOptionalTask = getTaskById(task.getId());
+
+        if (existingOptionalTask.isPresent()) {
+            Task existingTask = existingOptionalTask.get();
+            existingTask.setName(task.getName());
+            existingTask.setDescription(task.getDescription());
+            existingTask.setDeadLine(task.getDeadLine());
+            existingTask.setCategory(task.getCategory());
+
+            return Optional.of(taskRepository.save(existingTask));
+
+        } else {
+            return Optional.empty();
+        }
+
+    }
+
 }

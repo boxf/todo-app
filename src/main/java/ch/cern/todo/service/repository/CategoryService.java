@@ -41,4 +41,26 @@ public class CategoryService {
         }
     }
 
+    /**
+     * Update an existing {@link Category} with the new values received
+     *
+     * @param category
+     * @return
+     */
+    public Optional<Category> updateCategory(Category category) {
+        Optional<Category> existingOptionalCategory = getCategoryById(category.getId());
+
+        if (existingOptionalCategory.isPresent()) {
+            Category existingCategory = existingOptionalCategory.get();
+            existingCategory.setName(category.getName());
+            existingCategory.setDescription(category.getDescription());
+
+            return Optional.of(categoryRepository.save(existingCategory));
+
+        } else {
+            return Optional.empty();
+        }
+
+    }
+
 }

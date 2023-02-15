@@ -15,7 +15,10 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.Optional;
 
+import static java.util.Optional.empty;
+import static java.util.Optional.of;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -102,6 +105,62 @@ public class CategoryRestServiceTest {
         Mockito.verify(categoryMapper, Mockito.never()).mapCategoryToCategoryDto(returnedCategory);
         Mockito.verify(categoryService).getCategoryById(id);
         assertEquals(Optional.empty(), categoryDtoResult);
+    }
+
+    @Test
+    public void testUpdateCategoryReturnValue() {
+        // GIVEN
+        CategoryDto categoryDto = TestUtils.buildCategoryDto();
+        categoryDto.setId(1L);
+
+        Category mappedCategory = TestUtils.buildCategory();
+        mappedCategory.setId(1L);
+
+        Category returnedCategory = TestUtils.buildCategory();
+        returnedCategory.setId(1L);
+
+        CategoryDto returnedCategoryDto = TestUtils.buildCategoryDto();
+        returnedCategoryDto.setId(1L);
+
+        //WHEN
+        when(categoryMapper.mapCategoryDtoToCategory(categoryDto)).thenReturn(mappedCategory);
+        when(categoryService.updateCategory(mappedCategory)).thenReturn(of(returnedCategory));
+        when(categoryMapper.mapCategoryToCategoryDto(returnedCategory)).thenReturn(returnedCategoryDto);
+
+        CategoryDto CategoryDtoResult = categoryRestService.updateCategory(categoryDto).get();
+
+        //THEN
+        verify(categoryMapper).mapCategoryDtoToCategory(categoryDto);
+        verify(categoryMapper).mapCategoryToCategoryDto(returnedCategory);
+        verify(categoryService).updateCategory(mappedCategory);
+        assertEquals(returnedCategory.getId(), CategoryDtoResult.getId());
+        assertEquals(returnedCategory.getName(), CategoryDtoResult.getName());
+        assertEquals(returnedCategory.getDescription(), CategoryDtoResult.getDescription());
+    }
+
+    @Test
+    public void testUpdateCategoryReturnEmpty() {
+        // GIVEN
+        CategoryDto categoryDto = TestUtils.buildCategoryDto();
+        categoryDto.setId(1L);
+
+        Category mappedCategory = TestUtils.buildCategory();
+        mappedCategory.setId(1L);
+
+        Category returnedCategory = TestUtils.buildCategory();
+        returnedCategory.setId(1L);
+
+        //WHEN
+        when(categoryMapper.mapCategoryDtoToCategory(categoryDto)).thenReturn(mappedCategory);
+        when(categoryService.updateCategory(mappedCategory)).thenReturn(empty());
+
+        Optional<CategoryDto> CategoryDtoResult = categoryRestService.updateCategory(categoryDto);
+
+        //THEN
+        verify(categoryMapper).mapCategoryDtoToCategory(categoryDto);
+        verify(categoryService).updateCategory(mappedCategory);
+        verify(categoryMapper, never()).mapCategoryToCategoryDto(returnedCategory);
+        assertEquals(empty(), CategoryDtoResult);
     }
 
 

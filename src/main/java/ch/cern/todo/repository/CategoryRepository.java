@@ -6,11 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category,Long> {
-    @Override
-    Category save(Category category);
-
-    @Override
-    Category getById(Long categoryId);
-
 
 }

@@ -71,4 +71,37 @@ public class TaskRestControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    @Test
+    public void testUpdateTaskFound(){
+        //GIVEN
+        TaskDto taskDto = TestUtils.buildTaskDto();
+        taskDto.setId(1L);
+
+        Optional<TaskDto> optTaskDto = Optional.of(taskDto);
+
+        //WHEN
+        Mockito.when(taskRestService.updateTask(taskDto)).thenReturn(optTaskDto);
+        ResponseEntity<TaskDto> response = taskRestController.updateTask(taskDto);
+
+        //THEN
+        Mockito.verify(taskRestService).updateTask(taskDto);
+        assertEquals(optTaskDto.get(), response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateTaskNotFound(){
+        //GIVEN
+        TaskDto taskDto = TestUtils.buildTaskDto();
+        taskDto.setId(2L);
+
+        //WHEN
+        Mockito.when(taskRestService.updateTask(taskDto)).thenReturn(Optional.empty());
+        ResponseEntity<TaskDto> response = taskRestController.updateTask(taskDto);
+
+        //THEN
+        Mockito.verify(taskRestService).updateTask(taskDto);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
 }

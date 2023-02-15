@@ -71,4 +71,38 @@ public class CategoryRestControllerTest {
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
+    @Test
+    public void testUpdateCategoryFound() {
+        //GIVEN
+        CategoryDto categoryDto = TestUtils.buildCategoryDto();
+        categoryDto.setId(1L);
+
+        Optional<CategoryDto> optCategoryDto = Optional.of(categoryDto);
+
+        //WHEN
+        Mockito.when(categoryRestService.updateCategory(categoryDto)).thenReturn(optCategoryDto);
+        ResponseEntity<CategoryDto> response = categoryRestController.updateCategory(categoryDto);
+
+        //THEN
+        Mockito.verify(categoryRestService).updateCategory(categoryDto);
+        assertEquals(optCategoryDto.get(), response.getBody());
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testUpdateCategoryNotFound() {
+        //GIVEN
+        CategoryDto categoryDto = TestUtils.buildCategoryDto();
+        categoryDto.setId(2L);
+
+        //WHEN
+        Mockito.when(categoryRestService.updateCategory(categoryDto)).thenReturn(Optional.empty());
+        ResponseEntity<CategoryDto> response = categoryRestController.updateCategory(categoryDto);
+
+        //THEN
+        Mockito.verify(categoryRestService).updateCategory(categoryDto);
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+    }
+
+
 }

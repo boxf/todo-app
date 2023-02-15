@@ -2,6 +2,7 @@ package ch.cern.todo.controller;
 
 import ch.cern.todo.api.TaskRestApi;
 import ch.cern.todo.dto.TaskDto;
+import ch.cern.todo.model.Task;
 import ch.cern.todo.service.rest.TaskRestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.Optional;
 
 /**
- * Controller of the Task REST WS
+ * Controller of the {@link Task} REST WS
  */
 @RestController
 @Transactional
@@ -34,18 +35,14 @@ public class TaskRestController implements TaskRestApi {
     @GetMapping(path = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDto> getTask(@RequestParam final Long id) {
         Optional<TaskDto> taskDto = taskRestService.getTaskById(id);
-        if (taskDto.isPresent()){
-            return ResponseEntity.ok(taskDto.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return taskDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @Override
+    @PutMapping(path = "/update")
     public ResponseEntity<TaskDto> updateTask(@RequestBody final TaskDto taskDto) {
-
-        
-        return null;
+        Optional<TaskDto> newTaskDto = taskRestService.updateTask(taskDto);
+        return newTaskDto.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

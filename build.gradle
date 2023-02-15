@@ -29,7 +29,7 @@ dependencies {
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.26'
 
     // JUnit
-    testImplementation group: 'junit', name: 'junit', version: '5.9.2'
+    testImplementation group: 'junit', name: 'junit'
 
 }
 
